@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       });
 
       const output = await replicate.run(
-        "lucataco/flux-dev-img2img:1ea2762e10db3b6f007bc4bc710c2264b9b9404ec909ba2c1f721526debfebbd",
+        "lucataco/flux-dev-lora:091495765fa5ef2725a175a57b276ec30dc9d39c22d30410f2ede68a3eab66b3",
         {
           input: {
             image: base64DataUri,
