@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [profile, setProfile] = useState<{ credits: number } | null>(null);
@@ -68,13 +69,15 @@ export default function Dashboard() {
       <section className="mt-4 delay-100">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
           <h2>Meus Ensaios Recentes</h2>
-          <button onClick={() => router.push("/generate")} className="btn-secondary">Criar Novo Ensaio +</button>
+          <Link href="/#nichos" className="btn-secondary">Criar Novo Ensaio +</Link>
         </div>
 
         {images.length === 0 ? (
           <div className="glass-panel text-center" style={{ padding: "4rem" }}>
             <p className="text-secondary" style={{ fontSize: "1.2rem" }}>Você ainda não gerou nenhum ensaio.</p>
-            <button onClick={() => router.push("/generate")} className="btn-primary mt-2">Começar Agora</button>
+            <Link href="/#nichos" className="btn-primary">
+            ✨ Novo Ensaio
+          </Link>
           </div>
         ) : (
           <div className="grid-cards">

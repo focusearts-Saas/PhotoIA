@@ -34,23 +34,32 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const imageFile = formData.get('imageFile') as File | null;
-    const category = formData.get('category') as string;
+    const niche = formData.get('niche') as string;
     const prompt = formData.get('prompt') as string;
 
     if (!imageFile) {
       return NextResponse.json({ error: 'Nenhuma imagem enviada.' }, { status: 400 });
     }
 
-    // 3. Melhorar Prompt com Gemini
+    // 3. Melhorar Prompt com Gemini usando Persona por Nicho
     let finalPrompt = prompt || 'A beautiful high quality photo, cinematic lighting, 8k resolution';
     if (process.env.GOOGLE_GEMINI_API_KEY && prompt) {
       try {
         const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const aiPrompt = `You are an expert AI image generation prompt engineer.
-        The user wants an image with this description: "${prompt}".
-        The image category is: "${category}".
-        Rewrite this description into a highly detailed, professional prompt in English for Stable Diffusion or Photoroom.
+        
+        let persona = "You are an expert AI image generation prompt engineer.";
+        if (niche === 'restaurantes') {
+          persona = "You are an elite food photographer and food styling AI expert. Your goal is to create appetizing, photorealistic food prompts.";
+        } else if (niche === 'criancas') {
+          persona = "You are a specialized children's fantasy photographer AI expert. Your goal is to create magical, cute, and cinematic baby photoshoot prompts.";
+        } else if (niche === 'adultos') {
+          persona = "You are an expert professional portrait and fashion photographer AI. Your goal is to create high-end, realistic, and stylish portrait prompts.";
+        }
+
+        const aiPrompt = `${persona}
+        The user wants to transform an image with this description: "${prompt}".
+        Rewrite this description into a highly detailed, professional prompt in English for an Image-to-Image model (Stable Diffusion / Flux / Photoroom).
         Include keywords for perfect lighting, photorealistic quality, camera angle, and atmosphere.
         Return ONLY the new prompt, nothing else. No markdown, no explanations.`;
 
@@ -62,11 +71,11 @@ export async function POST(request: Request) {
       }
     }
 
-    // 4. Geração de Imagem (Baldeação)
+    // 4. Geração de Imagem (Baldeação por Nicho)
     let imageUrl = '';
     let bufferToUpload: Buffer;
 
-    if (category === 'produtos' || category === 'gastronomia') {
+    if (niche === 'restaurantes') {
       const photoroomKey = process.env.PHOTOROOM_API_KEY;
       if (!photoroomKey) throw new Error('Photoroom API Key não configurada.');
 
@@ -149,7 +158,7 @@ export async function POST(request: Request) {
         user_id: user.id,
         original_url: 'uploaded_by_user', // Em produção poderíamos salvar a original também no storage
         generated_url: imageUrl,
-        category: category,
+        category: niche,
         prompt: finalPrompt
       });
 

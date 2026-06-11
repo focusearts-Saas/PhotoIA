@@ -1,10 +1,10 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-export default function Generate() {
-  const [selectedCategory, setSelectedCategory] = useState("produtos");
+export default function GenerateNiche() {
+  const { niche } = useParams();
   const [prompt, setPrompt] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -26,7 +26,7 @@ export default function Generate() {
       const file = e.target.files[0];
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
-      setResultImage(null); // Limpa o resultado anterior se subir nova foto
+      setResultImage(null);
     }
   };
 
@@ -41,7 +41,7 @@ export default function Generate() {
 
     const formData = new FormData();
     formData.append("imageFile", selectedFile);
-    formData.append("category", selectedCategory);
+    formData.append("niche", niche as string);
     formData.append("prompt", prompt);
 
     try {
@@ -92,12 +92,30 @@ export default function Generate() {
     }
   };
 
+  let title = "Criar Novo Ensaio";
+  let subtitle = "Faça o upload da sua foto original.";
+  let placeholder = "Descreva o que deseja...";
+
+  if (niche === 'restaurantes') {
+    title = "Gerar Imagem de Cardápio";
+    subtitle = "Envie a foto do seu lanche/produto e veja a mágica.";
+    placeholder = "Ex: Hambúrguer numa mesa de madeira rústica, fundo desfocado, iluminação dramática...";
+  } else if (niche === 'criancas') {
+    title = "Criar Ensaio Mágico (Kids)";
+    subtitle = "Envie a foto do seu bebê para criar um cenário de mesversário.";
+    placeholder = "Ex: Cenário de espaço sideral com foguetes, estrelas e um balão de 6 meses...";
+  } else if (niche === 'adultos') {
+    title = "Ensaio Profissional (Adultos)";
+    subtitle = "Envie sua foto e descreva o estilo ou cenário desejado.";
+    placeholder = "Ex: Vestindo terno azul em um escritório corporativo luxuoso...";
+  }
+
   return (
     <div className="container animate-fade-in">
       <header style={{ marginBottom: "3rem", textAlign: "center" }}>
-        <h1 style={{ fontSize: "3rem" }}>Criar Novo Ensaio</h1>
+        <h1 style={{ fontSize: "3rem", textTransform: "capitalize" }}>{title}</h1>
         <p className="text-secondary" style={{ fontSize: "1.2rem", marginTop: "0.5rem" }}>
-          Faça o upload da sua foto original e escolha o estilo desejado.
+          {subtitle}
         </p>
       </header>
 
@@ -147,27 +165,11 @@ export default function Generate() {
           <h2 style={{ marginBottom: "1.5rem" }}>2. Configurações da IA</h2>
           
           <div style={{ marginBottom: "2rem" }}>
-            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>Categoria do Ensaio</label>
-            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              {["produtos", "gastronomia", "roupas", "bebês"].map((cat) => (
-                <button 
-                  key={cat}
-                  className={selectedCategory === cat ? "btn-primary" : "btn-secondary"}
-                  onClick={() => setSelectedCategory(cat)}
-                  style={{ textTransform: "capitalize", padding: "0.6rem 1.2rem", flex: "1 1 calc(50% - 0.5rem)" }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "2rem" }}>
             <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600" }}>Prompt / Descrição do Cenário</label>
             <textarea 
               className="input-glass" 
               rows={4} 
-              placeholder="Ex: Hambúrguer em uma mesa de madeira rústica, fundo desfocado de restaurante à noite, iluminação dramática..."
+              placeholder={placeholder}
               style={{ resize: "vertical" }}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}

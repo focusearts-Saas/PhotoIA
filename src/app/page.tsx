@@ -11,38 +11,44 @@ export default function Home() {
           A inteligência artificial que eleva a qualidade dos seus produtos. Ideal para lojas de roupas, hamburguerias, ensaios de bebês e muito mais. Sem precisar de fotógrafo profissional.
         </p>
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-          <a href="/generate" className="btn-primary" style={{ padding: "1rem 3rem", fontSize: "1.1rem" }}>
-            Começar Agora
+          <a href="#nichos" className="btn-primary" style={{ padding: "1rem 3rem", fontSize: "1.1rem" }}>
+            Escolha seu Objetivo
           </a>
-          <button className="btn-secondary" style={{ padding: "1rem 3rem", fontSize: "1.1rem" }}>
-            Ver Exemplos
-          </button>
         </div>
       </section>
 
       {/* Features / Use Cases Grid */}
-      <section className="mt-4 animate-fade-in delay-200">
+      <section id="nichos" className="mt-4 animate-fade-in delay-200">
         <div className="grid-cards">
           {/* Card 1 */}
-          <div className="glass-panel">
-            <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🍔</div>
-            <h3 style={{ marginBottom: "0.5rem" }}>Para Gastronomia</h3>
-            <p className="text-secondary">Transforme fotos simples do seu cardápio em imagens apetitosas e iluminadas de forma cinematográfica.</p>
-          </div>
+          <a href="/restaurantes" style={{ textDecoration: "none", color: "inherit" }}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+              <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🍔</div>
+              <h3 style={{ marginBottom: "0.5rem" }}>Restaurantes e Delivery</h3>
+              <p className="text-secondary">Transforme fotos simples do seu cardápio em imagens apetitosas e iluminadas de forma cinematográfica.</p>
+              <span className="text-gradient" style={{ display: "block", marginTop: "1rem", fontWeight: "bold" }}>Acessar Ferramenta &rarr;</span>
+            </div>
+          </a>
 
           {/* Card 2 */}
-          <div className="glass-panel">
-            <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👗</div>
-            <h3 style={{ marginBottom: "0.5rem" }}>Lojas de Roupas</h3>
-            <p className="text-secondary">Remova o manequim ou coloque suas roupas em modelos realistas usando nossa IA avançada.</p>
-          </div>
+          <a href="/adultos" style={{ textDecoration: "none", color: "inherit" }}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+              <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👔</div>
+              <h3 style={{ marginBottom: "0.5rem" }}>Ensaios Profissionais</h3>
+              <p className="text-secondary">Fotos perfeitas para o LinkedIn ou redes sociais. Cenários corporativos e ensaios artísticos com IA.</p>
+              <span className="text-gradient" style={{ display: "block", marginTop: "1rem", fontWeight: "bold" }}>Acessar Ferramenta &rarr;</span>
+            </div>
+          </a>
 
           {/* Card 3 */}
-          <div className="glass-panel">
-            <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👶</div>
-            <h3 style={{ marginBottom: "0.5rem" }}>Ensaios Temáticos</h3>
-            <p className="text-secondary">Tire uma foto do seu bebê em casa e escolha entre dezenas de cenários e temas encantadores.</p>
-          </div>
+          <a href="/criancas" style={{ textDecoration: "none", color: "inherit" }}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+              <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👶</div>
+              <h3 style={{ marginBottom: "0.5rem" }}>Ensaios Temáticos (Kids)</h3>
+              <p className="text-secondary">Tire uma foto do seu bebê em casa e crie mesversários com cenários mágicos e fantasias.</p>
+              <span className="text-gradient" style={{ display: "block", marginTop: "1rem", fontWeight: "bold" }}>Acessar Ferramenta &rarr;</span>
+            </div>
+          </a>
         </div>
       </section>
 
