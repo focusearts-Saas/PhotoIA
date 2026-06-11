@@ -75,6 +75,23 @@ export default function Generate() {
     }
   };
 
+  const handleDownload = async (url: string) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = "meu_ensaio.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      alert("Clique com o botão direito na imagem e escolha 'Salvar imagem como...'");
+    }
+  };
+
   return (
     <div className="container animate-fade-in">
       <header style={{ marginBottom: "3rem", textAlign: "center" }}>
@@ -176,7 +193,7 @@ export default function Generate() {
             <img src={resultImage} alt="Resultado Gerado" style={{ maxWidth: "100%", borderRadius: "var(--radius-md)" }} />
           </div>
           <div className="mt-2">
-            <button className="btn-primary">Baixar Imagem</button>
+            <button className="btn-primary" onClick={() => handleDownload(resultImage)}>Baixar Imagem</button>
           </div>
         </div>
       )}

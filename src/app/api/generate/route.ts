@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
       const base64DataUri = `data:${imageFile.type || 'image/jpeg'};base64,${fileBuffer.toString('base64')}`;
 
-      const falResponse = await fetch('https://queue.fal.run/fal-ai/flux/dev/image-to-image', {
+      const falResponse = await fetch('https://fal.run/fal-ai/flux-dev/image-to-image', {
         method: 'POST',
         headers: {
           'Authorization': `Key ${falKey}`,
