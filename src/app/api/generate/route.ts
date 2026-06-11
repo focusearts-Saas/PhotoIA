@@ -96,39 +96,37 @@ export async function POST(request: Request) {
       bufferToUpload = Buffer.from(arrayBuffer);
 
     } else {
-      // Integração com Replicate (Flux)
-      const replicateToken = process.env.REPLICATE_API_TOKEN;
-      if (!replicateToken) throw new Error('Replicate API Token não configurada.');
+      // Integração com Fal.ai (Flux)
+      const falKey = process.env.FAL_KEY;
+      if (!falKey) throw new Error('Fal.ai API Key não configurada.');
 
       const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
       const base64DataUri = `data:${imageFile.type || 'image/jpeg'};base64,${fileBuffer.toString('base64')}`;
 
-      const replicate = new Replicate({
-        auth: replicateToken,
+      const falResponse = await fetch('https://fal.run/fal-ai/flux/dev/image-to-image', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Key ${falKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          image_url: base64DataUri,
+          prompt: finalPrompt,
+          strength: 0.85
+        })
       });
 
-      const output = await replicate.run(
-        "lucataco/flux-dev-lora:091495765fa5ef2725a175a57b276ec30dc9d39c22d30410f2ede68a3eab66b3",
-        {
-          input: {
-            image: base64DataUri,
-            prompt: finalPrompt,
-            prompt_strength: 0.85
-          }
-        }
-      );
-
-      // output is usually an array of URLs
-      const resultUrl = Array.isArray(output) ? output[0] : output;
-
-      if (!resultUrl) {
-        throw new Error('Replicate não retornou imagens.');
+      if (!falResponse.ok) throw new Error('Erro ao gerar na Fal.ai.');
+      const falData = await falResponse.json();
+      
+      if (falData.images && falData.images.length > 0) {
+        // Baixa a imagem da URL retornada pela Fal para salvar no Supabase
+        const imgFetch = await fetch(falData.images[0].url);
+        const imgBuffer = await imgFetch.arrayBuffer();
+        bufferToUpload = Buffer.from(imgBuffer);
+      } else {
+        throw new Error('Fal.ai não retornou imagens.');
       }
-
-      // Baixa a imagem da URL retornada pela Replicate para salvar no Supabase
-      const imgFetch = await fetch(resultUrl);
-      const imgBuffer = await imgFetch.arrayBuffer();
-      bufferToUpload = Buffer.from(imgBuffer);
     }
 
     // 5. Salvar Imagem no Supabase Storage
