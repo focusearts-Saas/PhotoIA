@@ -22,7 +22,7 @@ export default function Home() {
         <div className="grid-cards">
           {/* Card 1 */}
           <a href="/restaurantes" style={{ textDecoration: "none", color: "inherit" }}>
-            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }}>
               <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🍔</div>
               <h3 style={{ marginBottom: "0.5rem" }}>Restaurantes e Delivery</h3>
               <p className="text-secondary">Transforme fotos simples do seu cardápio em imagens apetitosas e iluminadas de forma cinematográfica.</p>
@@ -32,7 +32,7 @@ export default function Home() {
 
           {/* Card 2 */}
           <a href="/adultos" style={{ textDecoration: "none", color: "inherit" }}>
-            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }}>
               <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👔</div>
               <h3 style={{ marginBottom: "0.5rem" }}>Ensaios Profissionais</h3>
               <p className="text-secondary">Fotos perfeitas para o LinkedIn ou redes sociais. Cenários corporativos e ensaios artísticos com IA.</p>
@@ -42,7 +42,7 @@ export default function Home() {
 
           {/* Card 3 */}
           <a href="/criancas" style={{ textDecoration: "none", color: "inherit" }}>
-            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }} onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--primary-color)"} onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--glass-border)"}>
+            <div className="glass-panel" style={{ transition: "all 0.3s ease", cursor: "pointer" }}>
               <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>👶</div>
               <h3 style={{ marginBottom: "0.5rem" }}>Ensaios Temáticos (Kids)</h3>
               <p className="text-secondary">Tire uma foto do seu bebê em casa e crie mesversários com cenários mágicos e fantasias.</p>
