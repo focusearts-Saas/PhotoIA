@@ -99,14 +99,12 @@ export async function POST(request: Request) {
       });
 
       const output = await replicate.run(
-        "black-forest-labs/flux-dev",
+        "lucataco/flux-dev-img2img:1ea2762e10db3b6f007bc4bc710c2264b9b9404ec909ba2c1f721526debfebbd",
         {
           input: {
             image: base64DataUri,
             prompt: finalPrompt,
-            strength: 0.85,
-            prompt_upsampling: false,
-            go_fast: true
+            prompt_strength: 0.85
           }
         }
       );
